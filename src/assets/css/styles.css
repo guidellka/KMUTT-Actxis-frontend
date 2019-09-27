@@ -1,0 +1,176 @@
+body {
+    font-family: 'Sarabun', sans-serif;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+  }
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c9c9c9; 
+    border-radius:10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #b8b8b8; 
+}
+
+.text-center{
+    text-align: center;
+}
+
+.text-left{
+    text-align: left;
+}
+
+.text-right{
+    text-align: right;
+}
+
+.border-form{
+    border: 1px solid #dedede;
+    border-radius: 5px;
+    padding: 25px 10px 0px 10px;
+}
+
+.icon-fold{
+    font-size: 18px;
+}
+
+.header-fixed{
+    position: fixed;
+}
+
+/* ------- override ant design ------- */
+
+/* ------- Menu -------- */
+
+.ant-menu{
+    color: #464545;
+}
+
+.ant-menu-item-group-title{
+    color: #464545;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* ------- Step -------- */
+
+.ant-steps-item #tracking-tail{
+  height:80px ;
+}
+
+.ant-menu-submenu-title .anticon, .ant-menu-item .anticon {
+    font-size: 18px;
+}
+
+.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .anticon, 
+.ant-menu-inline-collapsed > .ant-menu-item .anticon {
+    font-size: 18px;
+}
+
+.ant-layout-sider-children{
+    box-shadow: rgba(0, 0, 0, 0.18) 1px 2px 2px
+}
+
+.ant-table-wrapper{
+    overflow: hidden;
+}
+
+/* ------- Table -------- */
+
+.ant-table-scroll table .ant-table-fixed-columns-in-body{
+    visibility: initial;
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.ant-table .ant-table-thead th{
+    background-color: #E88044;
+    color: #ffffff;
+}
+
+.ant-table-thead > tr > th.ant-table-column-has-actions.ant-table-column-has-sorters:hover {
+    background: #e88044;
+}
+
+.ant-table-thead > tr > th.ant-table-column-sort {
+    background: #e88044;
+}
+
+.ant-table-thead > tr > th .ant-table-column-sorter .ant-table-column-sorter-inner .ant-table-column-sorter-up.on,
+.ant-table-thead > tr > th .ant-table-column-sorter .ant-table-column-sorter-inner .ant-table-column-sorter-down.on{
+    color: #ffffff;
+}
+
+.form-table .ant-table .ant-table-thead th{
+    color:#000;
+    background-color: #ffffff;
+    border-left: 1px solid #e8e8e8;
+}
+
+.form-table .ant-table .ant-table-thead th:last-child{
+    color:#000;
+    background-color: #ffffff;
+    border-left:none;
+}
+
+.form-table .ant-table-tbody > tr > td{
+    border-left: 1px solid #e8e8e8;
+}
+
+.form-table .ant-table-tbody > tr > td:last-child{
+    border-left: none;
+}
+
+.ant-table-thead > tr > th.ant-table-column-has-actions.ant-table-column-has-filters
+.ant-table-filter-icon.ant-table-filter-open {
+    background-color: #e88044;
+}
+
+.ant-table-thead > tr > th.ant-table-column-has-actions.ant-table-column-has-filters:hover .anticon-filter:hover, 
+.ant-table-thead > tr > th.ant-table-column-has-actions.ant-table-column-has-filters:hover .ant-table-filter-icon:hover {
+    background-color: #e88044;
+}
+
+.pointer .ant-table-row {
+    cursor: pointer;
+}
+
+.ant-table-thead > tr > th .ant-table-filter-icon {
+    color: #ffffff;
+}
+
+/* ------- Form -------- */
+
+.ant-form-item-label{
+    line-height: 2.5;
+    white-space: initial;
+}
+
+/* ------- Anchor -------- */
+
+.ant-anchor-link-title{
+    overflow: inherit;
+}
+
+.ant-anchor-wrapper{
+    overflow: inherit;
+}
+
+/* ------- Icon -------- */
+
+.anticon-menu-fold{
+    color: #e88044;
+}
+
+.anticon-menu-unfold:hover{
+    color: #e88044;
+}
