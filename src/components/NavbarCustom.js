@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Menu, Dropdown, Icon, Avatar, Affix } from 'antd'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { sidebarToggle, changeSelectedKey, changeSubMenuKeys } from '../redux/sidebar'
@@ -40,14 +41,10 @@ const LinkMenu = styled(Link)`
 `
 
 const ProfileName = styled.div`
-    font-size:12px;
-    margin-right:10px;
+    font-size:13px;
+    margin-right:2px;
     margin-left: 10px;
-    hr{
-        margin: 0;
-        padding: 0;
-        border:0.2px #464545 solid;
-    }
+
 `
 
 const FlexCenterItem = styled.div`
@@ -86,7 +83,7 @@ class NavbarCustom extends Component {
     toggle() {
         const { dispatch } = this.props
         dispatch(sidebarToggle())
-        if(!this.props.sidebar){
+        if (!this.props.sidebar) {
             dispatch(changeSubMenuKeys([]))
         }
     }
@@ -97,18 +94,21 @@ class NavbarCustom extends Component {
     }
 
     render() {
-        let name = "ภรณ์วรัตน์ สุวิชาชนันทร์"
-        let clubName = "ชมรมนาฏยโขนละคร"
+        let name = `${this.props.firstName} ${this.props.lastName}`
         return (
             <Affix style={{ zIndex: 100 }}>
                 <Nav>
                     <FlexCenterItem>
-                        <Icon
-                            className="trigger icon-fold"
-                            type={this.props.sidebar ? 'menu-unfold' : 'menu-fold'}
-                            onClick={this.toggle}
-                        />
-                        <LinkStyleNone to="/" onClick={this.changeSelectedKey}>
+                        {this.props.showIconMenu ?
+                            <Icon
+                                className="trigger icon-fold"
+                                type={this.props.sidebar ? 'menu-unfold' : 'menu-fold'}
+                                onClick={this.toggle}
+                            />
+                            :
+                            null
+                        }
+                        <LinkStyleNone to="/home" onClick={this.changeSelectedKey}>
                             <Logo src={LogoImg} />
                             <span>
                                 <strong>KMUTT Act<span style={{ color: '#E88044' }}>x</span>is</strong>
@@ -117,12 +117,9 @@ class NavbarCustom extends Component {
                     </FlexCenterItem>
                     <Dropdown overlay={menu} trigger={['click']}>
                         <LinkMenu to="#">
-                            <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>{name.slice(0, 1)}</Avatar>
-                            {/* Avatar เช็คว่ามีรูปไหม ถ้ามีก็เเสดงเป็นรูป  <Avatar src=" " /> */}
+                            <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>{name.slice(0,1)}</Avatar>
                             <ProfileName className="hidden-xs">
                                 {name.length > 25 ? `${name.slice(0, 24)}...` : name}
-                                <hr />
-                                {clubName.length > 25 ? `${clubName.slice(0, 24)}...` : clubName}
                             </ProfileName>
                             <Icon type="down" style={{ marginLeft: 5 }} />
                         </LinkMenu>
@@ -133,8 +130,14 @@ class NavbarCustom extends Component {
     }
 }
 
+NavbarCustom.propTypes = {
+    showIconMenu: PropTypes.bool,
+}
+
 const mapStateToProps = state => ({
     sidebar: state.sidebar.sidebar,
+    firstName: state.login.firstName,
+    lastName: state.login.lastName,
 })
 
 export default connect(mapStateToProps)(NavbarCustom)
