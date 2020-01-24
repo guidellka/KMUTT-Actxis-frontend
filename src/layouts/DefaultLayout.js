@@ -11,27 +11,40 @@ class DefaultLayout extends Component {
     render() {
         return (
             <Layout>
-                <Navbar />
-                    <Layout>
+                {this.props.showSidebar ?
+                    <Navbar showIconMenu={this.props.showSidebar} />
+                    :
+                    <Navbar showIconMenu={this.props.showSidebar} />
+                }
+                <Layout>
+                    {this.props.showSidebar ?
                         <Sidebar />
-                        <Content
-                            style={{
-                                background: '#fff',
-                                paddingBottom: 20,
-                                minHeight: 280,
-                            }}
-                        >
-                            {this.props.middle}
-                        </Content>
-                    </Layout>
+                        :
+                        null
+                    }
+                    <Content
+                        style={{
+                            background: '#fff',
+                            paddingBottom: 20,
+                            minHeight: 280,
+                        }}
+                    >
+                        {this.props.middle}
+                    </Content>
+                </Layout>
             </Layout>
 
         )
     }
 }
 
+DefaultLayout.defaultProps = {
+    showSidebar: true
+}
+
 DefaultLayout.propTypes = {
     middle: PropTypes.element,
+    showSidebar: PropTypes.bool,
 }
 
 export default DefaultLayout
