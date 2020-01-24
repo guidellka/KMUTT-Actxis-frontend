@@ -121,6 +121,25 @@ body {
     background-color: #ffffff;
     border-left:none;
 }
+.ant-table-thead > tr > th .anticon-filter, .ant-table-thead > tr > th .ant-table-filter-icon{
+    color: #ffffff;
+}
+.ant-table-thead > tr > th .ant-table-filter-selected.anticon-filter{
+    color: #ffffff;
+}
+.ant-table-thead > tr > th.ant-table-column-has-actions.ant-table-column-has-filters 
+.anticon-filter.ant-table-filter-open, .ant-table-thead > tr > 
+th.ant-table-column-has-actions.ant-table-column-has-filters 
+.ant-table-filter-icon.ant-table-filter-open{
+    opacity: 0.5;
+}
+
+.ant-table-thead > tr > th.ant-table-column-has-actions.ant-table-column-has-filters 
+.anticon-filter.ant-table-filter-open, .ant-table-thead > tr >
+th.ant-table-column-has-actions.ant-table-column-has-filters 
+.ant-table-filter-icon.ant-table-filter-open{
+    color: #db5e16;
+}
 
 .form-table .ant-table-tbody > tr > td{
     border-left: 1px solid #e8e8e8;
@@ -150,10 +169,10 @@ body {
 
 /* ------- Form -------- */
 
-.ant-form-item-label{
-    line-height: 2.5;
-    white-space: initial;
+.ant-form-item-with-help{
+    margin-bottom: 14px !important;
 }
+
 
 /* ------- Anchor -------- */
 
