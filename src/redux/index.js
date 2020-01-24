@@ -1,12 +1,15 @@
 import {createStore, combineReducers} from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
+import login from './login'
 import sidebar from './sidebar'
+
 
 const create = () => {
   const reducers = combineReducers({
-    sidebar,
+    login,sidebar,
   })
-  const store = createStore(reducers)
+  const store = createStore(reducers, composeWithDevTools())
   return store
 }
 
