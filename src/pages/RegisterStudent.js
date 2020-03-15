@@ -251,7 +251,7 @@ const RegisterStudent = (props) => {
                 >
                     <Card
                         title="ข้อมูลเบื้องต้น"
-                        style={{ marginTop: 20 }}
+                        style={{ margin: '20px 0px', }}
                         headStyle={{ fontSize: 25, textAlign: 'center' }}
                     >
                         <Form layout='horizontal' onSubmit={handleSubmit} {...formItemLayout}>

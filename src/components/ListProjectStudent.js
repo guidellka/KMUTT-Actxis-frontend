@@ -1,12 +1,20 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import { Link } from 'react-router-dom'
-import { Empty, Icon, Table, Input, Button } from 'antd'
+import { connect } from 'react-redux'
+import { Empty, Icon, Table, Input, Button, Modal } from 'antd'
 import Highlighter from 'react-highlight-words'
+import styled from 'styled-components'
 import moment from 'moment'
 import 'moment/locale/th'
 
 import axios from 'scripts/Api'
 import Header from './sections/HeaderCustom.js'
+
+const ButtonCustom = styled(Button)`
+    height: 120px;
+    width: 200px;
+    font-size: 18px;
+`
 
 const ListProjectStudent = (props) => {
     const [isLoading, setIsLoading] = useState(true)
@@ -14,7 +22,8 @@ const ListProjectStudent = (props) => {
     const [error, setError] = useState(null)
     const [searchText, setSearchText] = useState("")
     const [filteredInfo, setFilteredInfo] = useState("")
-    const [sortedInfo, setSortedInfo] = useState({order: 'ascend', columnKey: 'end_at',})
+    const [sortedInfo, setSortedInfo] = useState({ order: 'ascend', columnKey: 'end_at', })
+    const [visible, setVisible] = useState(false)
 
     useEffect(() => {
         firstFetch()
@@ -22,7 +31,9 @@ const ListProjectStudent = (props) => {
 
     const firstFetch = async () => {
         try {
-            const { data } = await axios.get(`/document/student/1`)
+            const { data } = await axios.get(`/document/student/8`)
+            console.log('>>> [ListProjectStudent.js:35] data : ', data)
+            // const { data } = await axios.get(`/document/student/${props.userId}`)
             setData(data)
             setIsLoading(false)
         } catch (error) {
@@ -31,6 +42,13 @@ const ListProjectStudent = (props) => {
         }
     }
 
+    const showModal = () => {
+        setVisible(true)
+    }
+
+    const handleCancel = () => {
+        setVisible(false)
+    }
 
     const handleChange = (pagination, filters, sorter) => {
         setFilteredInfo(filters)
@@ -87,7 +105,6 @@ const ListProjectStudent = (props) => {
     const handleReset = (clearFilters) => {
         clearFilters()
         setSearchText('')
-
     }
 
     const tableLocale = {
@@ -112,7 +129,7 @@ const ListProjectStudent = (props) => {
         key: 'end_at',
         width: '20%',
         align: 'center',
-        sorter: (a,b) => moment(a.start_at).unix() - moment(b.start_at).unix(),
+        sorter: (a, b) => moment(a.start_at).unix() - moment(b.start_at).unix(),
         sortOrder: sortedInfo.columnKey === 'end_at' && sortedInfo.order,
         render: (val, record) => {
             if (moment(val).isSame(record.start_at, 'day')) {
@@ -139,9 +156,9 @@ const ListProjectStudent = (props) => {
         align: 'center',
         width: '20%',
         render: (val) => {
-            if(moment(val).unix() < moment().unix()){
-                return <span style={{ color: "#ff3537"}}>หมดเวลาในการส่งเเล้ว</span>
-            }else{
+            if (moment(val).unix() < moment().unix()) {
+                return <span style={{ color: "#ff3537" }}>หมดเวลาในการส่งเเล้ว</span>
+            } else {
                 return moment(val).endOf('day').fromNow()
             }
         }
@@ -152,14 +169,32 @@ const ListProjectStudent = (props) => {
         key: 'updated_at',
         align: 'center',
         width: '10%',
-        sorter: (a,b) => moment(a.updated_at).unix() - moment(b.updated_at).unix(),
+        sorter: (a, b) => moment(a.updated_at).unix() - moment(b.updated_at).unix(),
         sortOrder: sortedInfo.columnKey === 'updated_at' && sortedInfo.order,
         render: (val) => moment(val).fromNow(),
     },
     {
         title: 'สถานะ',
+        dataIndex: 'status',
+        key: 'status',
         width: '15%',
-        align: 'center'
+        align: 'center',
+        filters: [
+            { text: 'รอตรวจสอบ', value: 'รอตรวจสอบ' },
+            { text: 'รอแก้ไข', value: 'รอแก้ไข' },
+            { text: 'เสร็จสิ้น', value: 'เสร็จสิ้น' },
+            { text: 'ยกเลิก', value: 'ยกเลิก' },
+        ],
+        filteredValue: filteredInfo.status || null,
+        onFilter: (value, record) => record.status.includes(value),
+        render: (val) => {
+            if(val === "รอแก้ไข"){
+                return <span style={{color: '#e88044'}}>{val}</span>
+            }else{
+                return val
+
+            }
+        }
     }]
 
     return (
@@ -168,14 +203,32 @@ const ListProjectStudent = (props) => {
                 topic="เอกสารโครงการทั้งหมด"
                 description="รายชื่อเอกสารโครงการที่คุณสร้างทั้งหมด"
                 headerRight={
-                    <Link to="#">
-                        <Button style={{ marginBottom: 5 }} >
+                    <div>
+                        <Button style={{ marginBottom: 5 }} onClick={showModal} >
                             <Icon type="plus" />
                             <span className=" hidden-xs hidden-sm hidden-md">
                                 สร้างแบบเสนอโครงการ
-                                </span>
+                            </span>
                         </Button>
-                    </Link>
+                        <Modal
+                            title="เลือกประเภทโครงการ"
+                            visible={visible}
+                            footer={false}
+                            style={{ textAlign: 'center' }}
+                            onCancel={handleCancel}
+                        >
+                            <Link to="/create">
+                                <ButtonCustom style={{ marginRight: 20 }}>
+                                    แบบเสนอโครงการ
+                                 </ButtonCustom>
+                            </Link>
+                            <Link to="#">
+                                <ButtonCustom>
+                                    แบบสรุปโครงการ
+                                </ButtonCustom>
+                            </Link>
+                        </Modal>
+                    </div>
                 }
 
             />
@@ -192,10 +245,10 @@ const ListProjectStudent = (props) => {
                 onChange={handleChange}
                 scroll={{ x: 700 }}
                 size="middle"
-                onRow={(item) => {
+                onRow={(document) => {
                     return {
                         // onClick: event => this.props.history.push(`/projects/${item.id}/docs/1/create`)
-                        onClick: event => console.log(item.id)
+                        onClick: event => console.log(document.id)
                     }
                 }}
             />
@@ -204,4 +257,8 @@ const ListProjectStudent = (props) => {
 
 }
 
-export default ListProjectStudent
+const mapStateToProps = state => ({
+    userId: state.login.userId,
+})
+
+export default connect(mapStateToProps)(ListProjectStudent)
