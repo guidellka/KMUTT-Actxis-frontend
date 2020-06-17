@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Children } from 'react'
 import { Layout } from 'antd'
 import PropTypes from 'prop-types'
 
@@ -30,6 +30,7 @@ class DefaultLayout extends Component {
                         }}
                     >
                         {this.props.middle}
+                        {this.props.children}
                     </Content>
                 </Layout>
             </Layout>

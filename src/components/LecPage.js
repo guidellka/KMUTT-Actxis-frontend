@@ -16,7 +16,7 @@ const ButtonCustom = styled(Button)`
     font-size: 18px;
 `
 
-const ListProjectStudent = (props) => {
+const LecPege = (props) => {
     const [isLoading, setIsLoading] = useState(true)
     const [data, setData] = useState([])
     const [error, setError] = useState(null)
@@ -259,4 +259,4 @@ const mapStateToProps = state => ({
     userId: state.login.userId,
 })
 
-export default withRouter(connect(mapStateToProps)(ListProjectStudent))
+export default withRouter(connect(mapStateToProps)(LecPege))

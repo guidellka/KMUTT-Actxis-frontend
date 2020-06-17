@@ -1,3 +1,5 @@
+import { getUserId, setUserId as setUserIdLocal, removeUserId } from '../utils/localStorage'
+
 const SET_USER_ID = 'SET_USER_ID'
 const SET_IS_USER_DATA = 'SET_IS_USER_DATA'
 const SET_IS_ORGAN = 'SET_IS_ORGAN'
@@ -7,9 +9,10 @@ const SET_FIRST_NAME = 'SET_FIRST_NAME'
 const SET_LAST_NAME = 'SET_LAST_NAME'
 const SET_MAIL = 'SET_MAIL'
 const SET_STD_ID = 'SET_STD_ID'
+const LOGOUT = 'LOGOUT'
 
 const initState = {
-  userId: null,
+  userId: getUserId(),
   isUserData: false,
   isOrgan: false,
   isLecturer: false,
@@ -23,6 +26,7 @@ const initState = {
 const reducer = (state = initState, action) => {
   switch (action.type) {
     case SET_USER_ID:
+      setUserIdLocal(action.id)
       return {
         ...state,
         userId: action.id,
@@ -66,6 +70,12 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         stdId: action.key,
+      }
+    case LOGOUT:
+      removeUserId(null)
+      return {
+        ...state,
+        userId: null
       }
     default:
       return state

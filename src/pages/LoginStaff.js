@@ -2,11 +2,14 @@ import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Form, Icon, Input, Button, Card, message, } from 'antd'
+import { Form, Icon, Input, Button, Card, message } from 'antd'
 
 import axios from '../scripts/Api'
 import LogoImg from 'assets/images/Logo.png'
-import { setUserId, setIsUserData, setOrganName, setMail, setStdId, setFirstName, setLastName } from '../redux/login'
+import { setUserId, setIsUserData, setOrganName, setMail, setFirstName, setLastName } from '../redux/login'
+
+
+
 
 const Logo = styled.img`
     height: 140px;
@@ -14,11 +17,12 @@ const Logo = styled.img`
 `
 const CenterCard = styled.div`
     display: grid;
+    margin-top: 40px;
     justify-content: center;
     align-items: center;
 `
 
-const LoginStudent = (props) => {
+const LoginStaff = (props) => {
     const { dispatch } = props
     const { getFieldDecorator } = props.form
 
@@ -28,50 +32,29 @@ const LoginStudent = (props) => {
         props.form.validateFields(async (err, values) => {
             if (!err) {
                 //check ldap
-                const { data } = await axios.post(`/api/v1/login`, values)
+                const { data } = await axios.post(`/api/v1/staff/login`, values)
                 if (!data.status) {
-                    dispatch(setStdId(data.cn))
                     dispatch(setMail(data.mail))
+                    console.log('>>> [LoginStudent.js:37] data.cn : ', data.cn)
                     try {
-                        //check username in db ?
+                        //chack username in db ?
                         const { data: getUser } = await axios.get(`/user/${values.username}`)
                         dispatch(setUserId(getUser.id))
                         try {
                             //user have user_data in db?
                             const { data: getUserData } = await axios.get(`/user_data/${getUser.id}`)
+                            console.log('>>> [LoginStudent.js:46] getUserData : ', getUserData)
                             dispatch(setIsUserData(true))
-                            dispatch(setFirstName(getUserData.first_name))
-                            dispatch(setLastName(getUserData.last_name))
-                            try {
-                                //Is student council or student union ?
-                                const { data: getOrganUser } = await axios.get(`/organization_name/${getUser.id}`)
-                                dispatch(setOrganName(getOrganUser[0].name))
-                                //** ลิ้งค์ไปหน้าเเรกขององค์การ & สภา */
-                                props.history.push(`/form`)
-                            } catch (error) {
-                                props.history.push(`/home`)
-                            }
+                            props.history.push(`/lec/home`)
                         } catch (error) {
-                            props.history.push(`/register`)
+                            
                         }
-
 
                     } catch (error) {
-                        // have not username in db
-                        if (error.status || 404) {
-                            //create user in db 
-                            const { data: userId } = await axios.post(`/users`,
-                                {
-                                    username: data.cn,
-                                })
-                            dispatch(setUserId(userId))
-                            props.history.push(`/register`)
-                        } else {
-                            console.error(error)
-                        }
+                        
                     }
                 } else {
-                    message.error('รหัสนักศึกษาหรือรหัสผ่านไม่ถูกต้อง !!')
+                    message.error('บัญชีผู้ใช้หรือรหัสผ่านไม่ถูกต้อง !!')
                 }
             }
         })
@@ -79,17 +62,22 @@ const LoginStudent = (props) => {
 
     return (
         <CenterCard>
-            <Card style={{ width: 380, textAlign: 'center', borderRadius: 5, marginTop:50 }}>
+            <Card
+                title="สำหรับอาจารย์เเละบุคลากร"
+                headStyle={{ backgroundColor: '#d0d0d0' }}
+                bodyStyle={{ backgroundColor: '#e8e8e8' }}
+                style={{ width: 380, textAlign: 'center', borderRadius: 5 }}
+            >
                 <Logo src={LogoImg} />
                 <Form className="login-form" onSubmit={handleSubmit}>
                     <Form.Item style={{ marginBottom: 0 }}>
-                        <p style={{ textAlign: "left", margin: 0, height: 30 }}>รหัสนักศึกษา</p>
+                        <p style={{ textAlign: "left", margin: 0, height: 30 }}>บัญชีผู้ใช้งาน</p>
                         {getFieldDecorator('username', {
-                            rules: [{ required: true, message: 'กรุณากรอกรหัสนักศึกษา' }],
+                            rules: [{ required: true, message: 'กรุณากรอกบัญชีผู้ใช้งาน' }],
                         })(
                             <Input
                                 prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                placeholder="กรอกรหัสนักศึกษา"
+                                placeholder="กรอกบัญชีผู้ใช้งาน"
                             />
                         )}
                     </Form.Item>
@@ -111,7 +99,6 @@ const LoginStudent = (props) => {
                         </Button>
                     </Form.Item>
                 </Form>
-                <Link to='/staff' >สำหรับอาจารย์เเละบุคลากร คลิกที่นี่</Link>
             </Card>
         </CenterCard>
     )
@@ -120,10 +107,8 @@ const LoginStudent = (props) => {
 const mapStateToProps = state => ({
     userId: state.login.userId,
     isUserData: state.login.isUserData,
-    stdId: state.login.stdId,
-
 })
 
-const WrappedLogin = Form.create()(LoginStudent)
+const WrappedLogin = Form.create()(LoginStaff)
 
 export default connect(mapStateToProps)(WrappedLogin)

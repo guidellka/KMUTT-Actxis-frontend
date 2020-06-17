@@ -39,7 +39,7 @@ const dataColumn = [
         key: '1',
         date: '17 มิ.ย. 2562',
         time: '21:00 น.',
-        by: 'ชมรมนาฏยโขนละคร',
+        by: 'ผู้สร้างโครงการ',
         to: 'อาจารย์ที่ปรึกษา',
         status: 'รอตรวจสอบ'
     },
@@ -48,14 +48,14 @@ const dataColumn = [
         date: '17 มิ.ย. 2562',
         time: '10:00 น.',
         by: 'อาจารย์ที่ปรึกษา',
-        to: 'ชมรมนาฏยโขนละคร',
+        to: 'ผู้สร้างโครงการ',
         status: 'รอแก้ไข'
     },
     {
         key: '3',
         date: '17 มิ.ย. 2562',
         time: '18:00 น.',
-        by: 'ชมรมนาฏยโขนละคร',
+        by: 'ผู้สร้างโครงการ',
         to: 'อาจารย์ที่ปรึกษา',
         status: 'รอตรวจสอบ'
     },
@@ -106,12 +106,12 @@ class ProjectTacking extends Component {
 
         return (
             <Fragment>
-                <Header topic="ติดตามแบบเสนอโครงการ" description="โครงการจิตอาสา คณะเทคโนโลยีสารสนเทศ" />
+                <Header topic="ติดตามแบบเสนอโครงการ" description="โครงการจิตอาสา สโมสรนักศึกษาคณะเทคโนโลยีสารสนเทศ" />
                 <Spin size="large" spinning={loading} tip="กำลังโหลด..." >
                     <Row style={{ marginTop: 20 }}>
                         <Col xs={{ span: 18, offset: 3 }} sm={{ span: 10, offset: 6 }} md={{ span: 7, offset: 1 }}>
                             <Steps direction="vertical" current={1} status="process">
-                                <Step title="ชมรมนาฏยโขนละคร"
+                                <Step title="ผู้สร้างโครงการ"
                                     description={
                                         <div id="tracking-tail">
                                             ส่งเเบบเสนอโครงการเเล้ว<br />
